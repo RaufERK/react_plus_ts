@@ -10,22 +10,39 @@ interface State {
 
 export default class Cart extends React.Component<Props, State> {
 
+  #cartRef: React.RefObject<HTMLDivElement>;
+
   constructor(props: Props) {
     super(props)
     this.state = {
       isOpen: false,
     }
+    this.#cartRef = React.createRef();
+  }
+
+  clickFarAwayHandler = (event: MouseEvent) => {
+    if (!this.#cartRef?.current?.contains(event.target)) {
+      this.setState({ isOpen: false })
+    }
+  }
+
+  componentDidMount() {
+    console.log('componentDidMount ==>');
+    document.addEventListener('click', this.clickFarAwayHandler)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.clickFarAwayHandler)
   }
 
   cartHandler = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    console.log((event.target as HTMLElement).nodeName);
     this.setState(prev => ({ ...prev, isOpen: !prev.isOpen }))
   }
 
   render() {
     return (
       <AppStateContext.Consumer>{(state) => {
-        return <div className={CartCSS.cartContainer}>
+        return <div className={CartCSS.cartContainer} ref={this.#cartRef} >
           <button className={CartCSS.button}
             onClick={this.cartHandler}
           >
@@ -36,6 +53,8 @@ export default class Cart extends React.Component<Props, State> {
             style={{
               display: this.state.isOpen ? 'block' : 'none'
             }}
+
+
           >
             <ul>
               {state.cart.items.map(({ id, name, quantity }) => <li key={id}>{name} &times; {quantity}</li>)}
