@@ -21,7 +21,7 @@ export default class Cart extends React.Component<Props, State> {
   }
 
   clickFarAwayHandler = (event: MouseEvent) => {
-    if (!this.#cartRef?.current?.contains(event.target)) {
+    if (!this.#cartRef?.current?.contains(event.target as Node)) {
       this.setState({ isOpen: false })
     }
   }
