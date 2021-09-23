@@ -6,10 +6,12 @@ import AppCSS from './App.module.css'
 import PizzaSVG from '../svg/pizza.svg'
 import Cart from './Cart'
 import { AppStateProvider } from './AppState'
+import SpecialOffer from './SpecialOffer'
+
 
 
 const App = () => {
-  const [pizzas, setPizzas] = useState<PizzaIF[]>(pizzasArr);
+  const [pizzas, setPizzas] = useState(pizzasArr);
   return <AppStateProvider>
     <div className={AppCSS.container}>
       <div className={AppCSS.header}>
@@ -17,8 +19,11 @@ const App = () => {
         <div className={AppCSS.siteTitle}>Delecios Pizza</div>
         <Cart />
       </div>
-      <ul>{pizzas.map((pizza) => <Pizza pizza={pizza} key={pizza.id} />)
-      }
+      <SpecialOffer pizza={pizzas[0]} />
+      <ul className={AppCSS.pizzaList}>
+        {
+          pizzas.map((pizza) => <Pizza pizza={pizza} key={pizza.id} />)
+        }
       </ul>
     </div>
   </AppStateProvider>

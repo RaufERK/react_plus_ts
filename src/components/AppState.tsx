@@ -76,7 +76,7 @@ export const AppStateProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initStateValue)
   useEffect(() => {
     dispatch({ type: 'INIT_CARD', payload: localStorage() })
-    console.log('REAL STATE =>', JSON.stringify(state));
+    // console.log('REAL STATE =>', JSON.stringify(state));
   }, [])
 
   useEffect(() => {
